@@ -24,4 +24,5 @@ async def convert_text_to_speech(textString):
     text_to_speech(textString)
     with open(os.path.join(tmp_file_dir, "saved.mp3"), "rb") as disk_file:
         disk_file.read()
+        os.system("rm saved.mp3")
         return FileResponse("saved.mp3", media_type="audio/mpeg")
