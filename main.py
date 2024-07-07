@@ -1,13 +1,27 @@
+from pathlib import Path
+from fastapi.responses import FileResponse
 from gtts import gTTS
-
 import os
 
-# myText = 'Welcome Home'
+from fastapi import FastAPI
+
+app = FastAPI()
+
 myText = open("textfile.txt", "r")
 
-language = 'en'
+tmp_file_dir = "/tmp/"
+Path(tmp_file_dir).mkdir(parents=True, exist_ok=True)
 
-myobj = gTTS(text=myText.read(), lang=language, slow=False)
-myobj.save("welcome.mp3")
-# os.system("start welcome.mp3")
-os.system("afplay welcome.mp3")
+
+def text_to_speech(textIn, language="en"):
+    myobj = gTTS(text=textIn, lang=language, slow=False)
+    filepath = tmp_file_dir + "saved.mp3"
+    myobj.save(filepath)
+
+
+@app.get("/convert/{textString}")
+async def convert_text_to_speech(textString):
+    text_to_speech(textString)
+    with open(os.path.join(tmp_file_dir, "saved.mp3"), "rb") as disk_file:
+        disk_file.read()
+        return FileResponse("saved.mp3", media_type="audio/mpeg")
