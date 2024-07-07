@@ -9,13 +9,13 @@ app = FastAPI()
 
 myText = open("textfile.txt", "r")
 
-tmp_file_dir = "/tmp/"
+tmp_file_dir = "/"
 Path(tmp_file_dir).mkdir(parents=True, exist_ok=True)
 
 
 def text_to_speech(textIn, language="en"):
     myobj = gTTS(text=textIn, lang=language, slow=False)
-    filepath = tmp_file_dir + "saved.mp3"
+    filepath = "saved.mp3"
     myobj.save(filepath)
 
 
@@ -24,5 +24,5 @@ async def convert_text_to_speech(textString):
     text_to_speech(textString)
     with open(os.path.join(tmp_file_dir, "saved.mp3"), "rb") as disk_file:
         disk_file.read()
-        os.system("rm saved.mp3")
+        # os.system("rm saved.mp3")
         return FileResponse("saved.mp3", media_type="audio/mpeg")
