@@ -1,5 +1,6 @@
 from pathlib import Path
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from gtts import gTTS
 import os
 
@@ -17,6 +18,14 @@ def text_to_speech(textIn, language="en"):
     myobj = gTTS(text=textIn, lang=language, slow=False)
     filepath = "saved.mp3"
     myobj.save(filepath)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/convert/{textString}")
