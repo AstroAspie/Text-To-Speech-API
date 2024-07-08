@@ -8,7 +8,6 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-myText = open("textfile.txt", "r")
 
 tmp_file_dir = "/"
 Path(tmp_file_dir).mkdir(parents=True, exist_ok=True)
@@ -18,6 +17,7 @@ def text_to_speech(textIn, language="en"):
     myobj = gTTS(text=textIn, lang=language, slow=False)
     filepath = "saved.mp3"
     myobj.save(filepath)
+
 
 app.add_middleware(
     CORSMiddleware,
