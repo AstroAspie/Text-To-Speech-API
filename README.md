@@ -18,3 +18,8 @@ source .venv/bin/activate
 python3 -m pip install -r requirements.txt
 docker compose up
 ```
+
+Navigate to a browser of your choice
+http://localhost/convert/<your text here>
+
+The converted audio file will then be returned
